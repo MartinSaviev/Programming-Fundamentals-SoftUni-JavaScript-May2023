@@ -1,41 +1,22 @@
 function destinationMapper(input) {
 
-    let pattern = /(\=|\/)(?<firstPlace>[A-Za-z]+)\1(\/|=)(?<secundPlace>[A-Za-z]+)\3/g
+  let pattern = /(=|\/)(?<word>[A-Z][A-Za-z]{2,})(\1)/g
+  let words = []
+  let points = 0;
+  let match = pattern.exec(input);
 
-    let matchDestination = input.matchAll(pattern)
-    let firstPlace = '';
-    let secundPlace = '';
-    let firstPlaceLength = 0;
-    let secundPlaceLength = 0;
-    let sumLength = 0;
+  while (match) {
 
-    for (const match of matchDestination) {
+    words.push(match.groups.word);
+    points += match.groups.word.length
 
-        firstPlace = match.groups.firstPlace;
-        secundPlace = match.groups.secundPlace;
+    match = pattern.exec(input);
+  }
 
-        firstPlaceLength = firstPlace.length;
-        secundPlaceLength = secundPlace.length;
+  console.log(`Destinations: ${words.join(', ')}`);
+  console.log(`Travel Points: ${points}`)
 
-        sumLength = firstPlaceLength + secundPlaceLength;
-
-    }
-
-    if (firstPlaceLength > 0 && secundPlaceLength > 0) {
-
-        console.log(`Destinations: ${firstPlace}, ${secundPlace}`);
-        console.log(`Travel Points: ${sumLength}`);
-    } else {
-        console.log('Destinations:');
-
-        console.log(`Travel Points: ${sumLength}`);
-
-
-    }
 }
 
 destinationMapper("=Hawai=/Cyprus/=Invalid/invalid==i5valid=/I5valid/=i=")
-
-console.log('--------');
-
-destinationMapper("ThisIs some InvalidInput")
+destinationMapper(("ThisIs some InvalidInput"))
